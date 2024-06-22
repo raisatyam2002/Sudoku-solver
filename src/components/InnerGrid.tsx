@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-
-export const InnerGrid = () => {
-  const [value, setValue] = useState<Number>();
+interface innerGridProps {
+  values: number[];
+  index: number;
+  handleChange: (i: number, index: number, value: number) => void;
+}
+export const InnerGrid: React.FC<innerGridProps> = ({
+  values,
+  index,
+  handleChange,
+}) => {
   const gridContainer: any = {
     display: "grid",
     gridTemplateColumns: "80px 80px 80px",
@@ -25,30 +32,29 @@ export const InnerGrid = () => {
   const inputCss: any = {
     height: "80px",
     width: "80px",
+    textAlign: "center",
   };
-  const handleClick = () => {
-    setValue(1000);
-  };
+  //   console.log("values are ", values);
+
+  //   const handleClick = () => {
+  //     setValue(1000);
+  //   };
+
   return (
-    <div className="flex justify-center h-">
-      <div style={gridContainer}>
-        <div style={gridItemStyle} onClick={handleClick}>
-          <input
-            style={inputCss}
-            type="number"
-            onChange={() => {
-              setValue;
-            }}
-          ></input>
-        </div>
-        <div style={gridItemStyle}>2</div>
-        <div style={gridItemStyle}>3</div>
-        <div style={gridItemStyle}>4</div>
-        <div style={gridItemStyle}>5</div>
-        <div style={gridItemStyle}>6</div>
-        <div style={gridItemStyle}>7</div>
-        <div style={gridItemStyle}>8</div>
-        <div style={gridItemStyle}>9</div>
+    <div className="flex justify-center ">
+      <div className="flex">
+        {values.map((value, i) => (
+          <div key={i}>
+            <input
+              style={inputCss}
+              type="number"
+              value={value}
+              onChange={(e) => {
+                handleChange(index, i, parseInt(e.target.value));
+              }}
+            ></input>
+          </div>
+        ))}
       </div>
     </div>
   );
